@@ -1,1 +1,6 @@
 node_modules
+src/scrapper.js
+.env
+.env.example
+src/db
+src/models

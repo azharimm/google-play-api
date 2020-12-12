@@ -1,17 +1,20 @@
 {
-  "name": "gplay-scrapper",
+  "name": "google-play-api",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon src/index",
+    "start": "node src/index"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "google-play-scraper": "^8.0.2"
+    "google-play-scraper": "^8.0.2",
+    "mongoose": "^5.11.7"
   },
   "devDependencies": {
     "nodemon": "^2.0.6"
