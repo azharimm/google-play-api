@@ -125,7 +125,7 @@ router.get('/apps/:appId', async (req, res, next) => {
 		const response = await gplay.app(opts);
 		return json(res, toList(response));
 	} catch (error) {
-		return next();
+		return errorJson(res, error);
 	}
 });
 
@@ -145,7 +145,7 @@ router.get('/apps/:appId/similar', async (req, res, next) => {
 			results: paginate(apps, page, limit)
 		});
 	} catch (error) {
-		return next();
+		return errorJson(res, error);
 	}
 });
 
@@ -156,7 +156,7 @@ router.get('/apps/:appId/permissions', async (req, res, next) => {
 		const response = await gplay.permissions(opts);
 		return json(res, toList(response));
 	} catch (error) {
-		
+		return errorJson(res, error);
 	}
 });
 
