@@ -18,9 +18,14 @@ const buildUrl = (req, subpath) => {
     return req.protocol + '://' + path.join(req.get('host'), req.baseUrl, subpath);
 }
 
+const paginate = (array, page, limit) => {
+    return array.slice((page - 1) * limit, page * limit);
+}
+
 module.exports = {
     qs,
     toList,
     cleanUrls,
-    buildUrl
+    buildUrl,
+    paginate
 }

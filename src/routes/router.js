@@ -1,15 +1,56 @@
 const express = require('express');
 const gplay = require('google-play-scraper');
 const { json, errorJson } = require('../utils/response')
-const { qs, buildUrl, cleanUrls, toList } = require('../utils/urls');
+const { qs, buildUrl, cleanUrls, toList, paginate } = require('../utils/urls');
 
 const router = express.Router();
 
 /* Index */
 router.get('/', (req, res) => {
+	const fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
 	return json(res, {
 		maintainer: 'Azhari Muhammad M <azhari.marzan@gmail.com>',
-		source: 'https://github.com/azharimm/hadits-api',
+		source: 'https://github.com/azharimm/google-play-api',
+		list: {
+			endpoint: '/apps',
+			example: fullUrl+'apps?lang=id&category=GAME&collection=topselling_paid&page=1&limit=10'
+		},
+		search: {
+			endpoint: '/apps?q=',
+			example: fullUrl+'apps?q=Facebook'
+		},
+		suggest: {
+			endpoint: '/apps?suggest=',
+			example: fullUrl+'apps?suggest=Facebook'
+		},
+		detail: {
+			endpoint: '/apps/:appId',
+			example: fullUrl+'apps/com.facebook.katana'
+		},
+		similar: {
+			endpoint: '/apps/:appId/similar',
+			example: fullUrl+'apps/com.facebook.katana/similar'
+		},
+		permissions: {
+			endpoint: '/apps/:appId/permissions',
+			example: fullUrl+'apps/com.facebook.katana/permissions'
+		},
+		reviews: {
+			endpoint: '/apps/:appId/permissions',
+			example: fullUrl+'apps/com.facebook.katana/reviews'
+		},
+		categories: {
+			endpoint: '/categories',
+			example: fullUrl+'categories'
+		},
+		collections: {
+			endpoint: '/collections',
+			example: fullUrl+'collections'
+		},
+		app_by_dev: {
+			endpoint: '/developers/:devId',
+			example: fullUrl+'developers/Facebook'
+		}
 	});
 });
 
@@ -19,9 +60,6 @@ router.get('/apps/', async (req, res, next) => {
 		const page = parseInt(req.query.page || '1');
 		const limit = parseInt(req.query.limit || '10');
 		
-		const paginate = (array) => {
-			return array.slice((page - 1) * limit, page * limit);
-		}
 		if (!req.query.q) {
 		  return next();
 		}
@@ -32,7 +70,7 @@ router.get('/apps/', async (req, res, next) => {
 			page,
 			limit,
 			last_page: Math.ceil(response.length/limit),
-			results: paginate(response)
+			results: paginate(response, page, limit)
 		});
 		
 	} catch (error) {
@@ -67,16 +105,13 @@ router.get('/apps/', async (req, res, next) => {
 		const page = parseInt(req.query.page || '1');
 		const limit = parseInt(req.query.limit || '10');
 		
-		const paginate = (array) => {
-			return array.slice((page - 1) * limit, page * limit);
-		}
 		const response = await gplay.list(req.query);
 		const apps = response.map(cleanUrls(req))
 		return json(res, {
 			page,
 			limit,
 			last_page: Math.ceil(response.length/limit),
-			results: paginate(apps)
+			results: paginate(apps, page, limit)
 		});
 	} catch (error) {
 		return errorJson(res, error);		
@@ -97,10 +132,18 @@ router.get('/apps/:appId', async (req, res, next) => {
 /* Similar apps */
 router.get('/apps/:appId/similar', async (req, res, next) => {
 	try {
+		const page = parseInt(req.query.page || '1');
+		const limit = parseInt(req.query.limit || '10');
+
 		const opts = Object.assign({appId: req.params.appId}, req.query);
 		const response = await gplay.similar(opts);
 		const apps = response.map(cleanUrls(req));
-		return json(res, toList(apps));
+		return json(res, {
+			page,
+			limit,
+			last_page: Math.ceil(response.length/limit),
+			results: paginate(apps, page, limit)
+		});
 	} catch (error) {
 		return next();
 	}
@@ -120,27 +163,19 @@ router.get('/apps/:appId/permissions', async (req, res, next) => {
 /* App reviews */
 router.get('/apps/:appId/reviews', async (req, res, next) => {
 	try {
-		const paginate = (apps) => {
-			  const page = parseInt(req.query.page || '0');
-	  
-			  const subpath = '/apps/' + req.params.appId + '/reviews/';
-			  if (page > 0) {
-				req.query.page = page - 1;
-				apps.prev = buildUrl(req, subpath) + '?' + qs.stringify(req.query);
-			  }
-	  
-			  if (apps.results.length) {
-				req.query.page = page + 1;
-				apps.next = buildUrl(req, subpath) + '?' + qs.stringify(req.query);
-			  }
-			return apps;
-		}
-	  
+		const page = parseInt(req.query.page || '1');
+		const limit = parseInt(req.query.limit || '10');
 		const opts = Object.assign({appId: req.params.appId}, req.query);
 		const response = await gplay.reviews(opts);
-		return json(res, paginate(toList(response)));
+		const reviews = response.data;
+		return json(res, {
+			page,
+			limit,
+			last_page: Math.ceil(reviews.length/limit),
+			results: paginate(reviews, page, limit)
+		});
 	} catch (error) {
-		
+		return errorJson(res, error);
 	}
 });
 
@@ -231,12 +266,19 @@ router.get('/categories', (req, res) => {
 /* Apps by developer */
 router.get('/developers/:devId/', async (req, res, next) => {
 	try {
+		const page = parseInt(req.query.page || '1');
+		const limit = parseInt(req.query.limit || '10');
 		const opts = Object.assign({devId: req.params.devId}, req.query);
 		const response = await gplay.developer(opts);
 		const apps = response.map(cleanUrls(req));
-		return json(res, toList(apps));
+		return json(res, {
+			page,
+			limit,
+			last_page: Math.ceil(response.length/limit),
+			results: paginate(apps, page, limit)
+		});
 	} catch (error) {
-		return next();
+		return errorJson(res, error);
 	}
 });
 
