@@ -1,6 +1,6 @@
-const json = (res, data) => {
-    res.json({
-        status: true,
+const json = (res, data, status = 200) => {
+    res.status(status).json({
+        status: status == 200 ? true : false,
         data,
     });
 };
