@@ -1,5 +1,9 @@
 node_modules
 src/scrapper.js
+src/reviews.js
+src/models/ReviewsShopee.js
+src/models/ReviewsTokped.js
+src/models/ReviewsLazada.js
 .env
 .env.example
 src/db
