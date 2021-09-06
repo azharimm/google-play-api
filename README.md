@@ -5,7 +5,7 @@
 [ENDPOINT](GET) /apps
 ```
 ```url
-[EXAMPLE] https://api-gplay.azharimm.tk/apps?lang=id&category=GAME&collection=topselling_paid&page=1&limit=10
+[EXAMPLE] https://api-gplay.azharimm.site/apps?lang=id&category=GAME&collection=topselling_paid&page=1&limit=10
 ```
 ### Query params
 | params        | desc | required |
@@ -21,7 +21,7 @@
 [ENDPOINT](GET) /apps?q=
 ```
 ```url
-[EXAMPLE] https://api-gplay.azharimm.tk/apps?q=Facebook
+[EXAMPLE] https://api-gplay.azharimm.site/apps?q=Facebook
 ```
 ### Query params
 | params        | desc | required |
@@ -36,7 +36,7 @@
 [ENDPOINT](GET) /apps?suggest=
 ```
 ```url
-[EXAMPLE] https://api-gplay.azharimm.tk/apps?suggest=Facebook
+[EXAMPLE] https://api-gplay.azharimm.site/apps?suggest=Facebook
 ```
 ### Query params
 | params        | desc | required |
@@ -49,7 +49,7 @@
 [ENDPOINT](GET) /apps/:appId
 ```
 ```url
-[EXAMPLE] https://api-gplay.azharimm.tk/apps/com.facebook.katana
+[EXAMPLE] https://api-gplay.azharimm.site/apps/com.facebook.katana
 ```
 
 ## 5). Similar - Show list of similar apps
@@ -57,7 +57,7 @@
 [ENDPOINT](GET) /apps/:appId/similar
 ```
 ```url
-[EXAMPLE] https://api-gplay.azharimm.tk/apps/com.facebook.katana/similar
+[EXAMPLE] https://api-gplay.azharimm.site/apps/com.facebook.katana/similar
 ```
 ### Query params
 | params        | desc | required |
@@ -71,7 +71,7 @@
 [ENDPOINT](GET) /apps/:appId/permissions
 ```
 ```url
-[EXAMPLE] https://api-gplay.azharimm.tk/apps/com.facebook.katana/permissions
+[EXAMPLE] https://api-gplay.azharimm.site/apps/com.facebook.katana/permissions
 ```
 
 ## 7). Reviews - Show list of reviews
@@ -79,7 +79,7 @@
 [ENDPOINT](GET) /apps/:appId/reviews
 ```
 ```url
-[EXAMPLE] https://api-gplay.azharimm.tk/apps/com.facebook.katana/reviews
+[EXAMPLE] https://api-gplay.azharimm.site/apps/com.facebook.katana/reviews
 ```
 ### Query params
 | params        | desc | required |
@@ -93,7 +93,7 @@
 [ENDPOINT](GET) /categories
 ```
 ```url
-[EXAMPLE] https://api-gplay.azharimm.tk/categories
+[EXAMPLE] https://api-gplay.azharimm.site/categories
 ```
 
 ## 9). Collections - Show list of collections
@@ -101,7 +101,7 @@
 [ENDPOINT](GET) /collections
 ```
 ```url
-[EXAMPLE] https://api-gplay.azharimm.tk/collections
+[EXAMPLE] https://api-gplay.azharimm.site/collections
 ```
 
 ## 10). Developers - Show list of apps made by developers
@@ -109,7 +109,7 @@
 [ENDPOINT](GET) /developers/:devId
 ```
 ```url
-[EXAMPLE] https://api-gplay.azharimm.tk/developers/Facebook
+[EXAMPLE] https://api-gplay.azharimm.site/developers/Facebook
 ```
 ### Query params
 | params        | desc | required |
